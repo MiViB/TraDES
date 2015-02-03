@@ -1,0 +1,76 @@
+#!/bin/bash
+
+
+if [ $# != 3 ]
+then
+	echo "usage: `basename $0` [Asn.1 Filename(no extension)] [iterations-from] [iterations-to]"
+	exit 1
+fi
+
+NUMCYC=$2
+
+echo Movie File To Build: $1
+echo From $2 to $3
+
+CYCLE=0
+
+while [ $NUMCYC != $3 ]
+do
+	let NUMCYC=$NUMCYC+1
+	let NEXTCYC=$NUMCYC+1
+	let LASTCYC=$NUMCYC-1
+	let CYCLE=$CYCLE+1
+
+	echo Cycle: $NUMCYC
+
+	STRUCNUM=$NUMCYC
+	if [ $NUMCYC -lt 1000000 ]
+	then
+		STRUCNUM=0${STRUCNUM}
+	fi
+	if [ $NUMCYC -lt 100000 ]
+	then
+		STRUCNUM=0${STRUCNUM}
+	fi
+	if [ $NUMCYC -lt 10000 ]
+	then
+		STRUCNUM=0${STRUCNUM}
+	fi
+	if [ $NUMCYC -lt 1000 ]
+	then
+		STRUCNUM=0${STRUCNUM}
+	fi
+	if [ $NUMCYC -lt 100 ]
+	then
+		STRUCNUM=0${STRUCNUM}
+	fi
+	if [ $NUMCYC -lt 10 ]
+	then
+		STRUCNUM=0${STRUCNUM}
+	fi
+
+	# make next sturcture, and so on
+	echo Making ascii Asn.1: $NUMCYC
+	echo ./bin2prt -f ${1}_${NUMCYC} -u T
+	./bin2prt -f ${1}_${NUMCYC} -u T
+	echo mv ${1}_${NUMCYC}.prt ${1}_${CYCLE}.prt
+	mv ${1}_${NUMCYC}.prt ${1}_${CYCLE}.prt
+
+
+done
+echo ./concatmodels -i $1 -n  $CYCLE
+./concatmodels -i $1 -n  $CYCLE
+mv ${1}_movie.prt ${1}_movie_${2}-${3}.prt
+echo ./prt2bin -f ${1}_movie_${2}-${3} -m T
+./prt2bin -f ${1}_movie_${2}-${3} -m T
+rm ${1}_movie_${2}-${3}.prt
+echo ${1}_movie.val created.
+
+NUMCYC=0
+while [ $NUMCYC != $CYCLE ]
+do
+	let NUMCYC=$NUMCYC+1
+	rm -f ${1}_${NUMCYC}.prt
+done
+
+echo Use Cn3D 4.3 or later to view!

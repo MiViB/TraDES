@@ -1,0 +1,34 @@
+# TRADES project makefile
+include trades.mk
+
+#OPTFLAG = -g
+SRC = ./src/solvateL.c ./src/mmdblocl.c
+EXE = ./src/solvateL
+
+include tradesvflags.mk
+include tradesflags.mk
+
+## Default thing to make will be "all"
+##
+
+all : $(EXE)
+
+## make individual applications and components
+##
+
+$(EXE) : $(TRAJLIBNAME) $(FOLDTRAJLIBNAME) $(SRC)
+	$(CC) -o $(EXE) -DX11 $(PUT_VERSION) $(LDFLAGS) $(SRC) $(LIB100) $(LIB99) $(LIB98) $(LIB95) $(LIB101) $(LIB22) $(LIB23) $(LIB2) $(LIB1) $(MISCLIBS) $(OTHERLIBS)
+	-mkdir $(BUILDDIR)
+	strip $(EXE)
+	mv $(EXE) $(BUILDDIR)
+
+clean :
+	rm -f $(TRAJLIBOBJS)
+	rm -f $(FOLDTRAJLIBOBJS)
+	rm -f $(EXE)
+	rm -f $(BUILDDIR)/$(EXE)
+	rm -f $(TRAJLIBNAME)
+	rm -f $(FOLDTRAJLIBNAME)
+
+include tradesdep.mk
+

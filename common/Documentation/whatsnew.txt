@@ -1,0 +1,544 @@
+06/12/2012
+
+- Bug fixes for trades and seq2trj
+- After we increased the number of trades iterations, a remnant of the folding 
+  algorithm behavior that increases atom bounciness parameters was spotted. 
+  This was causing the early part of the run to have a larger Rgyr and fewer atomic
+  collisions than the latter part of a run. This is an old bug - now fixed.
+  Now a constant atom bounciness is used by default for trades sampling, but
+  can be switched back to "increase when stuck" with the new -z parameter.
+
+- seq2trj was not scaling the peak height for the -c and -b switches consistently
+  with the *.ss file input method. This is fixed.
+
+- Backtracking information was not being properly calculated by seq2trj, now fixed.
+- seq2trj was not reading in *.ss files that it output. Now it can. 
+- An end-of-file bug in reading in *.ss files was fixed.
+
+- The unfold-it script was fixed and included in the distro release
+- A second script added to concatenate smaller sub-sections of movie files 
+  which can get too large for Cn3D
+- Ubuntu 64-bit distro was overwritten by the 32-bit distro, script error fixed.
+- SLRIextaa file moved back into common directory from samples
+
+
+06/05/2012
+- Release of TraDES-2 package including significant new modules in C and R for studying Intrinsic Disordered Proteins.
+
+- Note that ASN.1 structure visualization is now better supported by NCBI Cn3D 4.3. Please upgrade from the ncbi website.
+
+- Note that currently NCBI Biounit structures (as downloaded from the NCBI Web Site) are unsupported.
+  to use an Asn.1 structure select (x) Asymmetric Unit before you download it.
+
+- Hogue Laboratory source code released under a BSD "AS IS" license.
+
+- Read TraDES_Source_Licenses.txt for source code license details prior to compiling.
+
+- Current version still dependent on commercial CodeBase object libraries from www.codebase.com (source not provided)
+- Linkable libraries for CodeBase are in the source code tarball for use according to the sublicense terms.
+
+- The source code tarball will compile from a single script/bat file on the supported operating systems.
+
+- MAJOR revisions to the old executables which have been renamed to avoid confusion with old versions.
+
+{foldtraj} is replaced with {trades}
+    - trades differs from foldtraj in the following respects:
+	 1. trades now can compute and place layers of solvent
+	 2. trades can now compute more useful scoring functions for IDP analysis in conjunction with the R code.
+	 3. trades now computes ellipsoidal parameters.
+	 4. trades now ouputs aligned structures centered at the origin along the major x, y, z axis
+	 5. trades now has a streaming update progress indicator mode.
+         6. trades scoring functions are improved and standardized for downstream analysis in R.
+         7. trades can now dump 20 .csv files with Ramachandran angles for up to 30,000 structures
+         8. trades log files are now buffered, and flush every 1000 structures.
+         9. maximum number of iterations increased from 32768 to 300000, thanks to buffering.
+        10. trades can output ascii Asn.1 files (.prt)
+        11. trades error logs are improved.
+        12. trades command-line parameters differ significantly from foldtraj.
+	    -  READ mapcommands.txt for details on which parameters are new/deprecated/renamed
+	13. trades does not operate as a CGI - the conform WWW dependencies have been removed
+	14. trades no longer support "homtraj" or "RPS-BLAST" homology modeling features. A number of 
+	    associated files containing parameters for these features have been purged from the distribution.
+	15. trades no longer computes CHARMM potential scores - note that it never output CHARMM minimized coordinates
+	    in foldtraj - it only computed scores.
+	16.trades no longer keeps "best" structures. As the primary use is for disordered sampling, there is 
+	   currently no effective definition of a "best" structure. Your options are to keep all structures 
+	   in Asn.1 or PDB form, or keep none of them and just use the log file information.
+
+{InitTraj, Val2Traj, UnfoldTraj} and {maketrj) are replaced with {seq2trj} and {str2trj}
+	1. script or batch files are no longer needed as the functionality of maketrj has
+	   been logically separated into structure- and sequence- input.
+	2. seq2trj can directly compute ALL-COIL or ALL-BETA sampling distributions from the command line.
+	3. seq2trj can use a 3rd party input secondary structure file.
+	4. seq2trj can use a distance constraint file.
+	5. seq2trj outputs any secondary structure decisions computed internally in a *.ss file
+	6. seq2trj outputs a *.ara file which is the full-area-at-half-max of each trajectory distribution
+	   this new file is intended to be a single unit measure of conformational space "bandwidth" at each residue
+	   as computed by the algorithm that assembles the trajectory distributions from secondary structure prediciton.
+	   The maximum value of a *.ara file at a single residue is seen in uniform sampling - 160000 = 400x400.
+	   Minimum values of *.ara file at a single residue is 1 (which can be fixed in Vistraj)
+	   The *.ara file residue values can vary depending on 3-state or 1-state secondary structure methods, ALL-COIL,
+	   ALL-BETA sampling.  This information may prove useful in determining intrisic disorder propensity.
+	7. str2trj uses 3d ASN.1 .val, .prt or .cn3 files as obtained from the NCBI mmdb database, which has 
+           structures for all data in the PDB database in ASN.1 format. 
+           "str" implies it works with ASCII or Binary ASN.1.  
+           str2trj has smarter defaults and better parameter output with examples when you type 'str2trj -'
+           str2trj makes the previous shell scripts/bat files unnecessary.
+           str2trj supports Unfolding Mode with parameters -t (temperature) and -d (timestep)
+           str2trj supports Peak Width Mode with parameters -x (std. dev) and -y (std. dev)
+
+All programs are set to write to their own error_{programname}.log error log file.
+
+New Asn.1 Structure Inspection Utility
+    - New tool {strSummary} reports on any given .prt, .val or .c3d file (excepting NCBI Biounits)
+      Writes to stdout a listing of file format, Asn.1 heading, number of models 
+      and FASTA formatted sequence contents. 
+      Fast way to get the sequence out of a structure for seq2trj.
+
+Enhanced File Format Conversion Utilities
+    - Utility programs {val2prt} and {prt2val} replaced with rewritten tools {bin2prt} and {prt2bin]
+      The new tools are more flexible in input and can output files with .cn3 extensions
+      The "bin" indicates an ability to read from a .val or .cn3 file extension in Asn.1 binary
+      The "prt" indicates an ability to read from a .prt or .cn3 file extension in Asn.1 ascii
+      bin2prt can un-wrap NCBIMime wrapped Biostrucs and remove secondary structure features.
+      prt2bin can wrap NCBIMime Biostrucs and add in protein sequences.
+
+    - Utility program {valtopdb} replaced with rewritten tool {str2pdb}
+      str2pdb can input .prt, .val, .cn3 files (ASCII or Binary Asn.1) with NCBIMime or Biostruc
+      starting points. It can output all models or just a user-specfied model. Output file names
+      can be fully-user specified if you don't use .pdb 
+
+New Dock-by-Superposition Pipeline
+    - Dock-by-Superposition pipeline executables are now out of beta. Comprises the tools 
+      {salign} (superposition) -> {strMerge} (combine proteins) -> {crashchk} | grep (steric checks) 
+    - {salign} fixed to rotate the cylinder, cone and brick objects used for Cn3D visualization.
+    - {salign} modified for running from R to compute RMSD distance matrix values for IDP ensembles.
+      added a facility for salign to work from a file list input or obtained from filesystem.
+      These file list features are still in beta testing.
+    - Utility program beta {valmerge} replaced with {strMerge}. strMerge combines chains from two different
+      Asn.1 structures, and is used extensively in our dock-by-superposition method.
+    - Utility program beta {bumpcheck} replaced with {crashchk}. Crashchk reports on inter- or intra-chain
+      atomic collisions. We use grep to post-process crashchk output to find specific steric
+      collisions in the dock-by-superposition pipeline.
+
+New Solvation and Potential Tools
+    - Utility program {solvate} added. Adds solvent layers to Asn.1 structures. {trades} also does this.
+    - Utility program {solvateL} added - loops over {trades} numbered output Asn.1 structures - adds solvent
+      and has a more extensive logging facility for tracking the number of waters added in each layer.
+    - These tools also calculate the potential functions as used by TraDES, e.g. if you need the
+      potential score of the native fold of a protein for comparision - use {solvate}. 
+
+New Ramachandran Analysis Tools 
+    - Utility program {ramangL} added - used to create Ramanchandran angle .csv files for R analysis
+    - R analysis functions provided for plotting.
+    - {solvate} can dump a .csv file for a single Asn.1 structure.
+    - Sample sizes >30,000 structures are not supported nor are they necessary.
+    - {strSummary -r} outputs to stdout the Ramachandran angles for first all-atom model.
+
+Other Notable:
+    - 2002 versions of trajectory distribution dictionaries are have been removed from the distribution.
+    - Bryant Score added back to trades logfile output with a default exclude with of 3 (matching Crease Entropy)
+    - {benchtraj} now reports the operating system and version
+
+Still Working on:
+    - salign needs some beautification and testing for R driven NxN comparisions
+    - analyzeMovie needs an update
+    - VisTraj 1.1.1 is still only version working - available on Windows, works on Windows 7 under XP mode - fails under WINE.
+    - NCBI Biounit support - major project
+    - More tools for ASN.1 structure manipulation - major project
+    - Smoothed Rotamer Library update - major project
+    - New Potential Functions - major project...
+    
+
+
+01/31/2011
+
+- Rerelase of the TraDES package to "Collaborators".  See copyright file for details.
+
+- Package now renamed TraDES and includes analyzeMovie package together with foldtraj package
+
+- New default trajectory dictionaries cawalk_dict and phispiwalk_dict based on the Jan 2011 nonredundant PDB structues 
+
+- List of dictionary PDB structures provided in filtmmdblist from Jan 2011 
+  These new default trajectory dictionaries carry 5 times more data points than the previous 2002 ones.
+
+- Benchtraj now peforms original benchmark from Distributed Folding as a unit test of the system.
+
+- Re-release of foldtraj, maketrj and Vistraj where supported (OpenMotif supporting Linux or Windows)
+  Vistraj 1.1.2 supported only on CentOS and Ubuntu.  Vistraj has bugs on OpenSUSE (Can't see the sequence)
+  Original executable Vistraj 1.1.1 provided on Windows.
+
+- Vistraj 1.1.2 removes dependence on Netscape, fixes contact information.
+
+- Package now includes the BETA fast unfolding system: with unfold-it UnfoldTraj scripts
+  the unfold-it batch file is not yet made for Windows
+
+- changes to maketrj to support unfolding 
+
+- foldtraj now provides the McConkey Voronoi VSCORE based scoring function in log file output (Replaces Bryant score, which 
+  was redundant with Crease energy)
+
+- accessory conversion programs val2prt and prt2val and concatmodels to support unfolding trajectories with unfold-it
+
+- conversion program valtopdb to write PDB files from .val or .val.gz files
+
+- BETA structure alignment utility salign to support unfolding and docking methods for constraints
+
+- BETA valmerge to support the addition of two different aligned/docked protien chains into a single structure file
+
+- BETA bumpcheck to support docking methods after valmerge 
+
+- removed support for conform - cgi-bin web based version of foldtraj
+
+- removed support for RPSTraj while it is being overhauled - should return in the next release
+
+
+03/03/2003
+
+- added support for many more operating systems
+
+- added option to foldtraj to use extra RAM for increased speed
+
+- added support for tunnelling probability with fragments; tunnelling
+  allowed between fragments; tunnelling probability depends on
+  remaining length of fragment; some bugs with cis-proline in
+  fragments were fixed
+
+- fixed bug which caused crash with trajectory distribution files
+  that contain Bioseqs
+
+- removed AMBER - now does CHARMM minimization only
+
+- much internal re-arrangement and code cleanup
+
+- Added fragment length field for fragments
+
+- Fixed Vistraj bug - didn't save residue after removing residue
+  fragments
+
+- Fixed bug when cis-proline is edited in Vistraj with a PHIPSI walk
+
+- H-bonds made a bit more flexible, fixed some H-bond related bugs,
+  and are now ignored when ATOM_BOUNCINESS_BB>1.0 and/or 
+  ATOM_BOUNCINESS_SC>3.0
+
+- ATOM_BOUNCINESS > 1000 disables bump checking entirely except for
+  alpha carbons, which are treated as being radius 3.81A
+
+- when foldtraj get 'stuck' it will give up and try again after
+  1500 NlogN tries or NlogN seconds (N=# residues), whichever comes
+  first
+
+10/02/2001
+
+- fixed rare bd-tree bug
+
+07/09/2001
+
+- added BLOSUM matrix file to archive, needed for rpsblast option
+
+- fixed bug preventing rpsblast option from working properly
+
+- fixed potential problem with Windows temp file naming
+
+- added residue fragments capability
+
+- enabled shading in VisTraj
+
+- other small bugfixes
+
+03/29/2001
+
+- improved interthread communication; more stable now and Cancel
+  button works for threaded version when generating structures
+
+- minor bugfixes
+
+- added PDF and MS-Word 2000 documentation
+
+03/19/2001
+
+- can launch Foldtraj from inside VisTraj to generate structures
+
+- added VisTraj 1.0.0 to the package - a complete OpenGL trajectory
+  distribution visualization and editing tool
+
+- internal bzip2 library updated to v1.01 - should compress slightly
+  more and faster
+
+- can now optionally preserve rotamers when making trajectory
+  distributions starting from known structures
+
+- constraints now allow for a full six degrees of freedom to allow
+  complete specification of how the two pieces of the chain are related.
+  See the sample.constr file for details.
+
+- added RPSBlast functionality; see rps-setup.txt for details on how to
+  use this feature on your system - as a side effect, a new .foldtrajrc
+  or foldtraj.ini is needed so remove any old ones lying around
+
+- many minor bugfixes or cosmetic changes
+
+- fixed up model-loading so any .val file should load correctly now
+
+10/13/2000
+
+- changed backtracking algorithm slightly, the net result being a slight
+  increase in speed on average due to more frequent backtracking
+
+- added support for directed distance constraints - see sample.constr
+
+- tidied up source code and error messages, removed all system calls, get
+  operating system info (for the log file) from the OS now
+
+- NT version more stable now
+
+- added more flexibility for crease energy calculation
+
+- AMBER potential calculation implemented for built structures, placed in
+  log file
+
+- dssp helix, sheet and surface accessiblity now incorporated directly
+  into the source code so it is always output
+
+- Bioseq/Seq-entry is now stored in the trajectory distribution header
+  optionally
+
+- output format is now a Biostruc-seq, compatible with newest versions of
+  Cn3D (v3.0 and later) and is MIME-compliant as well
+
+- post-translationally modified amino acids can be entered into
+  inittraj now (see SLRIextaa.html in this package for details)
+
+- changed van der Waals radii to Tsai et al, J. Mol. Biol. (1999) 290,
+  253-266 - main effect is bigger carbon atoms
+
+- no longer explicitly test for hydrogen bonds or collision test them
+  though they are still assigned co-ordinates
+
+- minor bugfixes
+
+- fixed small bug in Markov calculations which made it slightly
+  inaccurate - now exact formulae are being used
+
+- changed web interface, as well as underlying user identification
+  mechanism (now uses cookies instead of IPs, so users must enable
+  cookies, and are now identified uniquely by their machines and
+  browsers)
+
+- anything in "header.txt" or "footer.txt" in the same directory as
+  the conform executable will be output above and below the main
+  CONFORM welcome screen when run.  A sample header.txt is included
+
+- added biostruc id and descr fields, copied from structure when made
+  with Val2Trj or UnfoldTraj, or referencing the TRADES algorithm and
+  paper when made with InitTraj.  In English, this means you'll see a
+  proper PDB header and description when you get Structure Info in Cn3D
+  or view the ASCII ASN.1 from a MMDB structure file generated with
+  foldtraj.  All structures get a negative MMDB id and a PDB id of "RAND"
+  to indicate that they are computer generated, not real, structures
+
+- numerous other changes and improvements
+
+01/11/2000
+
+- consolidated all configuration files into one file (.foldtrajrc on
+  UNIX or foldtraj.ini on Windows 9x/NT).  On Windows, make sure you
+  put the foldtraj.ini file in your C:\WINDOWS or equivalent directory,
+  or it will not be found!
+
+- overhauled WWW interface to the program, and combined foldtraj and
+  conform.  Now the same executable can be run from the command-line or as
+  a CGI through a web browser with a nice user-interface!  See the README
+  and .conformrc for details on how to set up the latter
+
+- autodetects dssp and if present, reports secondary structure content in
+  log files
+
+- much more detailed logging output, including logging of program crashes
+  and kill signals (UNIX versions only)
+
+- InitTraj can now use any generic secondary structure prediction method
+  (which you must provide) -- PHD (not included) has been incorporated
+  as an example.  See phd2ss.c and InitTraj for details of how to add
+  your favorite secondary structure predictor.  Briefly, you must write
+  a filter to convert its output to a generic format (see sample.ss and
+  output of phd2ss; it is important that pH + pE + pC = 100 in all cases)
+  and modify InitTraj slightly, in the same way it has been modified for PHD
+  Lastly, this feature is not yet fully supported on Windows, since few
+  if any secondary structure prediction programs exist on this platform
+
+- batchfold now requires .batchfoldrc (batchfold.ini on Windows) to
+  store a few configuration variables such as log file name
+
+- now records statistics to a proper log file (rather than the error.log!)
+  whose base name is given in .batchfoldrc and includes energy scores of
+  generated structures as calculated using both atom- and residue-based
+  potentials.  Can also log RMSD from known structure (see following comment).
+  Log file is tab-separated for easy importation into spreadsheets like
+  Microsoft Excel
+
+- added more options to batchfold -- can start numbering structures at
+  something other than one, can give an "experiment name" for output
+  files to keep related structures together, and you can provide a .val file
+  of the native structure of the protein, if known, in which case the RMSD
+  between each generated structure and the native will be logged.  Sequence
+  of the protein being folded much match exactly that in the structure file
+  of course.  You may select to keep only those which have the best RMSDs out
+  of those generated
+
+- removed foldtraj from the archive since its function is essentially
+  duplicated by batchfold
+
+- renamed fold.prm to .inittrajrc to reflect the fact that it is only
+  used by InitTraj and not foldtraj/batchfold
+
+- Markovian information can now be used to produce more secondary structure
+  in proteins (see fold.prm).  That is, once a helix. for example, is started,
+  it will be biased towards staying in the helix.  This is not implemented for
+  the phi-psi walk yet and has no effect in that case
+
+- distance constraints can be added using a standard X-PLOR/CNS NOE-type
+  distant constraint file (see CNS documentation or the sample.constr file
+  included in this package for details).  Note that adding a lot of long-
+  range interactions at this point will probably result in the structure
+  never being completed, so try to only use short-range ones for now.  This
+  is untested for phi-psi walks (so don't use it).  Note disulphide bridges
+  will now form as well when S's come close together in space or if given
+  as an explicit distance constraint, or if the .trj is generated with
+  Val2Trj from a structure which contains a real S-S bridge 
+
+- fixed rare bug if residue 2 is cis-Pro which would occasionally misplace
+  CA-1 and thus the rest of the first residue
+
+- can now do a random walk in Ramachandran phi-psi space if you wish (see
+  fold.prm for details).  Not all features have been fully implemented or
+  tested with this method, but standard things such as cis- residues, InitTraj 
+  and Val2Trj will still work OK.  UnfoldTraj may not work as well 
+
+- fixed sign error in cbdata for cystine (listed as CX in the file)
+
+- hydrogen bump checking can be turned off if you wish (see fold.prm)
+  since many similar programs only model heavy atoms
+
+- added interrupt handler for UNIX ports so if Ctrl-C is pressed to
+  abort program (or it crashes!), temporary files are still cleaned up
+
+- temporary trajectory distribution database files are now given unique
+  names so that multiple processes of InitTraj/batchfold/foldtraj may
+  be run from the same directory, on the same input file, with no
+  chance of interfering with one another
+
+- less noise added to Cb direction, and improved placement of Cb at
+  hairpin turns
+
+- corrected an endless loop which sometimes occurred on Windows 95/98/NT
+  machines only (due to improper rounding)
+
+- gaussian noise is added to rotamer chi angles so that there are
+  more than just 3^N static rotamers at a given residue, and overall
+  reducing crashes slightly; chi1 standard deviations are taken
+  from bbdep98.Feb.r1lib, Dunbrack's backbone dependent rotamer
+  library, while chi2 is taken from bbind98.Feb.condlib, the conditional
+  backbone independent library (so chi1 varies with backbone but chi2
+  does not).  chi3 and chi4 are taken to also have standard deviations
+  of 15 degrees.  All rotamer library files are available from
+  http://www.fccc.edu/research/labs/dunbrack/bbdep.html
+
+- improved PRO placement by using chi 1 values from the backbone-
+  dependent rotamer library (see previous paragraph) and then doing
+  a search within the valid range of chi 2 (again from the rotamer
+  library) to attempt to obtain the optimal orientation.  Also, the
+  PRO residue is "penalized" when the N is not planar now (except at
+  cis-PRO where this constraint is removed), improving the planarity at
+  this point in general
+
+- will try several times to place a rotamer before giving up and 
+  choosing a new alpha carbon location (new parameter in fold.prm,
+  read by InitTraj and saved in your .trj files); the base number
+  of tries is multiplied by the number of chi angles the residue
+  actually has, so that bigger side chains will get more tries than
+  smaller ones
+
+- slightly different counting of crashes; previously, when Pro ring
+  could not be successfully closed, was counted as a "bad backbone"
+  backtrack.  Now, this is treated as a crash if the failure is due
+  to a collision or a bad backbone if the ring bond angle and length
+  restraints are not sufficiently satisfied  
+
+07/14/99
+
+- fixed bug which resulted in an incorrect Cbeta placement occasionally,
+  on long extended segments (not helices) where Calphas are nearly
+  colinear
+
+07/07/99
+
+- Endianness stored in database file so byte flipping now only occurs
+  when a trajectory distribution is used on a machine type opposite that
+  on which it was created, greatly improving speed on non-Intel machines.
+  As a result, traj3graphs.* and all *.trj files will no longer work.
+  (Sorry, I will try to minimize breaking of the file format but I
+  felt it was necessary in this case)
+
+- Val2Trj and UnfoldTraj added to generate a .trj file from a .val MMDB
+  crystal structure file (available from NCBI's site) for the purposes of
+  protein backbone reconstruction or protein unfolding simulation
+
+- improved speed of foldtraj/batchfold algorithm by approximately 15%
+
+- further doubled speed by using RLE rather than bzip2 compression, at
+  the cost of requiring about 10 times the disk space while the program
+  is running (however, the initial files generated by InitTraj are still
+  bzipped and so the same size as earlier, for easy distribution among
+  several computers for example; foldtraj will automatically unzip it
+  first if the filename ends in .bz2 and then it will remain only RLE
+  compressed from that point on unless manually bzipped again).  The
+  conform package still uses bzip compression and does not gain this
+  speedup, since presumably disk usage should be kept minimal on web
+  servers with potentially hundreds of people running jobs at once
+
+- separate ATOM_BOUNCINESS parameters for backbone-backbone and
+  other collisions (see comments in fold.prm configuration file)
+
+- program times out and dumps incomplete structure after excessive time
+  (specifically, after 8*NlogN seconds where N is the sequence length);
+  the program almost always finishes, but if it has taken this long,
+  we are better off starting again to get done faster.  Any remaining
+  residues will be added on without regard to bump or backbone checking
+  to ensure all atoms have co-ordinates, and "_bad" will be appended
+  to the filename, especially useful for scripts you may have written.
+  Batchfold will simply try again if this happens, until it succeeds,
+  while foldtraj will just stop.
+
+- added compression type flag
+
+- fixed bug which prevented cis-proline residues from being placed
+
+- changed minimum TIMEOUT value from 2 to 4 - even when trajectories
+  are exactly specified, trials vary due to random fluctuations added
+  to distances and angles, and rotamer choice may vary so 2 tries is
+  really not enough
+
+- added some random noise to CBeta direction table lookup, since this
+  information is imperfect - this results in faster and more accurate
+  reconstructions without greatly affecting random structure generation
+
+- when getting trajectory distribution angles, always take value from
+  centre of the discrete bin, as opposed to randomly choosing a value
+  in the range of the bin - this provides higher quality
+  reconstructions as it always provides the best "guess" as to the
+  original undiscretized value
+
+05/17/99
+
+- fixed (?) rare error that rotamer probabilities sum to less than one
+
+- added batchfold for making many random proteins all in one run
+
+- added variable timeout - backtracking now depends on available area
+  of local conformational space
+
+04/09/99
+
+- initial public release

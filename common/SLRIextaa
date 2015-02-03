@@ -1,0 +1,66 @@
+# IMPORTANT!!!!  The amino acid names in this file (2nd column) must NOT
+# contain any spaces or VisTraj may behave erratically.  Please use an
+# Underscore character (_) where necessary
+#
+[A:ac]		N-acetyl-L-alanine							105	AAC	N	8		1
+[R:ac]		N-acetyl-L-arginine							106	RAC	N	12		1
+[N:ac]		N-acetyl-L-asparagine							107	NAC	N	9		1
+[D:ac]          N-acetyl-L-aspartic_acid                                                108     DAC     N       11              1
+[C:ac]		N-acetyl-L-cysteine							109	CAC	N	9		1
+[Q:ac]		N-acetyl-L-glutamine							110	QAC	N	10		1
+[E:ac]          N-acetyl-L-glutamic_acid                                                111     EAC     N       12              1
+[G:ac]		N-acetylglycine								112	GAC	N	6		1
+[H:ac]		N-acetyl-L-histidine							113	HAC	N	15		1
+[I:ac]		N-acetyl-L-isoleucine							114	IAC	N	12		1
+[L:ac]		N-acetyl-L-leucine							115	LAC	N	12		1
+[K:ac]		N2-acetyl-L-lysine							116	KAC	N	11		1
+[K:N6ac]	N6-acetyl-L-lysine							117	KA6	-	12 13 11	1 1 1
+[M:ac]		N-acetyl-L-methionine							120	MAC	N	10		1
+[F:ac]		N-acetyl-L-phenylalanine						121	FAC	N	19		1
+[P:ac]		N-acetyl-L-proline							122	PAC	N	9		1
+[S:ac]		N-acetyl-L-serine							123	SAC	N	9		1
+[T:ac]		N-acetyl-L-threonine							124	TAC	N	11		1
+[W:ac]		N-acetyl-L-tryptophan							125	WAC	N	22		1
+[Y:ac]		N-acetyl-L-tyrosine							126	YAC	N	19		1
+[V:ac]		N-acetyl-L-valine							127	VAC	N	11		1
+#[R:adprib]	?									131	RAD	-	42 43 41	1 1 1
+[A:am]		L-alanine_amide								140	AAM	C	6		1
+[R:am]		L-arginine_amide							141	RAM	C	10		1
+[M:form]	N-formyl-L-methionine							172	MFM	N	10		1
+[P:hy_g]	4-hydroxy-L-proline							210	HYP	-	9 10 9		1 1 1
+[C:farn]	S-farnesyl-L-cysteine							216	CFN	-	24 25 23	1 1 1
+[C:ger]		S-geranylgeranyl-L-cysteine						219	CGR	-	30 31 29	1 1 1
+[C:palm_n]	N-palmitoyl-L-cysteine							222	CPN	N	23		1
+[C:palm_s]	S-palmitoyl-L-cysteine							223	CPS	-	22 23 21	1 1 1
+#[C:dag]	?									226	CDG	-	46 47 45	1 1 1
+[G:myr]		N-myristoyl-glycine							229	GMY	N	18		1
+[K:myr]		N6-myristoyl-L-lysine							230	KMY	-	24 25 23	1 1 1
+[A:meth_n]	N-methyl-L-alanine							242	AMT	N	7		1
+[A:meth_n3]	N,N,N-trimethyl-L-alanine						243	AM3	N	8		1
+[R:meth_n7]	omega-N,omega-N-dimethyl-L-arginine					245	RM2	-	11 12 10	1 1 1
+[D:meth_b]      L-beta-methylthioaspartic_acid                                          252     DM2     -       10 11 9         1 1 1
+[Q:meth_n5]	N5-methyl-L-glutamine							257	QM5	-	10 11 9		1 1 1
+[E:meth_o5]     L-glutamic acid 5-methyl_ester                                          261     EM5     -       9 10 8          1 1 1
+[H:meth_n4]	3'-methyl-L-histidine							266	MHS	-	13 14 12	1 1 1
+[K:meth_1]	N6-methyl-L-lysine							272	MLZ	-	11 12 10	1 1 1
+[K:meth_2]	N6,N6-dimethyl-L-lysine							275	MLY	-	11 12 10	1 1 1
+[K:meth_3]	N6,N6,N6-trimethyl-L-lysine						278	M3L	-	12 13 11	1 1 1
+[M:meth]	N-methyl-L-methionine							282	MMT	N	9		1
+[F:meth]	N-methyl-L-phenylalanine						283	FMT	N	18		1
+[R:po]		omega-N-phospho-L-arginine						290	RPO	-	12 13 11	1 1 1
+[D:po]          L-aspartic_4-phosphoric_anhydride                                       293     DPO     -       9 10 8          1 1 1
+[C:po]		S-phospho-L-cysteine							296	CPO	-	8 9 7		1 1 1
+[H:po_e]	1'-phospho-L-histidine							299	HPE	-	14 15 13	1 1 1
+[H:po_d]	3'-phospho-L-histidine							302	HPD	-	14 15 13	1 1 1
+[S:po]		O-phospho-L-serine							305	SPO	-	8 9 7		1 1 1
+[T:po]		O-phospho-L-threonine							308	TPO	-	10 11 9		1 1 1
+[Y:po]		O4'-phospho-L-tyrosine							311	YPO	-	18 19 17	1 1 1
+[C:sel]		L-selenocysteine							317	CSE	-	7 7 6		1 1 1
+[M:sel]		L-selenomethionine							320	MSE	-	8 8 7		1 1 1
+[S:oxal]	L-3-oxoalanine								323	SOX	-	7 8 6		1 1 1
+[E:pyro]        2-pyrrolidone-5-carboxylic_acid                                         326     PCA     N       7               1
+[E:gpe]         L-glutamyl_5-glycerylphosphorylethanolamine                             330     EGE     -       18 19 17        1 1 1
+[H:diph]	2'-[3-carboxamido-3-(trimethylammonio)propyl]-L-histidine(diphthamide)	333	HDP	-	20 21 19	1 1 1
+[K:biotin]	N6-biotinyl-L-lysine							336	KBT	-	25 26 24	1 1 1
+[K:hypu]        N6-(4-amino-2-hydroxybutyl)-L-lysine(hypusine)                         342     KHY     -       16 17 15        1 1 1
+[K:retin]	N6-retinal-L-lysine							345	KRT	-	36 37 35	1 1 1

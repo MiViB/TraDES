@@ -1,0 +1,39 @@
+# TRADES project makefile
+
+include ../traj.mk
+
+#OPTFLAG = -g
+GLLIBS = $(OPENGL_LIBS) $(GLUT_LIB)
+INCPATH = $(NCBI_INCDIR) $(INCDIRS) $(OPENGL_INCLUDE)
+SRC = vis_traj.c vis_trajgl.c
+# $(MISCDIR)/mmdblocl.c
+EXE = vistraj
+
+include ../trajflags.mk
+
+## Default thing to make will be "all"
+##
+
+all : $(EXE)
+
+## make individual applications and components
+##
+
+$(EXE) : $(TRAJLIBNAME) $(FOLDTRAJLIBNAME) $(MAKETRAJLIBNAME) $(SRC)
+	$(CC) -o $(EXE) -DX11 $(PUT_VERSION) $(LDFLAGS) $(SRC) $(LIB104) $(LIB103) $(LIB101) $(LIB100) $(LIB99) $(LIB98) $(LIB97) $(LIB95) $(LIB94A) $(LIB94) $(LIB93) $(LIB91) $(LIB90) $(LIB89) $(LIB22) $(LIB23) $(LIB41) $(LIB6) $(LIB400) $(LIB2) $(LIB1) $(MISCLIBS) $(GLLIBS) $(VIBLIBS) $(OTHERLIBS) $(CURSESLIB)
+	-mkdir $(BUILDDIR)
+	strip $(EXE)
+	mv $(EXE) $(BUILDDIR)
+
+clean :
+	rm -f $(TRAJLIBOBJS)
+	rm -f $(FOLDTRAJLIBOBJS)
+	rm -f $(MAKETRAJLIBOBJS)
+	rm -f $(EXE)
+	rm -f $(BUILDDIR)/$(EXE)
+	rm -f $(TRAJLIBNAME)
+	rm -f $(FOLDTRAJLIBNAME)
+	rm -f $(MAKETRAJLIBNAME)
+
+include ../trajdep.mk
+

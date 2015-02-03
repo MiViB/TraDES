@@ -1,0 +1,30 @@
+# TRADES project makefile
+include trades.mk
+
+#OPTFLAG = -g
+SRC = ./src/bin2prt.c ./src/mmdblocl.c
+EXE = ./src/bin2prt
+
+include tradesvflags.mk
+include tradesflags.mk
+
+## Default thing to make will be "all"
+##
+
+all : $(EXE)
+
+## make individual applications and components
+##
+
+$(EXE) : $(TRAJLIBNAME) $(SRC)
+	$(CC) -o $(EXE) -DX11 $(LDFLAGS) $(SRC) $(LIB99) $(LIB98) $(LIB95) $(LIB22) $(LIB3) $(LIB2) $(LIB1) $(MISCLIBS) $(OTHERLIBS)
+	-mkdir $(BUILDDIR)
+	mv $(EXE) $(BUILDDIR)
+
+clean :
+	rm -f $(TRAJLIBOBJS)
+	rm -f $(EXE)
+	rm -f $(BUILDDIR)/$(EXE)
+	rm -f $(TRAJLIBNAME)
+
+include tradesdep.mk

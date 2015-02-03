@@ -1,0 +1,37 @@
+# TRADES project makefile
+include trades.mk
+
+#OPTFLAG = -g
+SRC = ./src/seq2trj.c
+EXE = ./src/seq2trj
+
+include tradesvflags.mk
+include tradesflags.mk
+
+## Default thing to make will be "all"
+##
+
+all : $(EXE)
+
+## make individual applications and components
+##
+
+$(EXE) : $(TRAJLIBNAME) $(FOLDTRAJLIBNAME) $(MAKETRAJLIBNAME) $(SRC)
+	$(CC) $(OPTFLAG) -o $(EXE) -DX11 $(LDFLAGS) $(SRC) $(LIB104) $(LIB100) $(LIB99) $(LIB98) $(LIB101) $(LIB22) $(LIB23) $(LIB41) $(LIB6) $(LIB2) $(LIB1) $(MISCLIBS) $(OTHERLIBS)
+	-mkdir $(BUILDDIR)
+# if you want to debug, comment next line
+	strip $(EXE)
+	mv $(EXE) $(BUILDDIR)
+
+clean :
+	rm -f $(TRAJLIBOBJS)
+	rm -f $(FOLDTRAJLIBOBJS)
+	rm -f $(MAKETRAJLIBOBJS)
+	rm -f $(EXE)
+	rm -f $(BUILDDIR)/$(EXE)
+	rm -f $(TRAJLIBNAME)
+	rm -f $(FOLDTRAJLIBNAME)
+	rm -f $(MAKETRAJLIBNAME)
+
+include tradesdep.mk
+

@@ -1,0 +1,96 @@
+Ncbi-mime-asn1 ::= strucseq {
+	structure {
+	  id {
+	    mmdb-id 99999 } ,
+	  descr {
+	    name "RAND" ,
+	    history {
+	      data-source {
+	        name-of-database "N/A" ,
+	        version-of-database
+	          release-date
+	            std {
+***insert date } here***
+    	    database-entry-id
+  	        other-database {
+ 	           db "MODEL" ,
+ 	           tag
+ 	             str "RAND" } ,
+					database-entry-date
+          	std {
+***insert date } } } here***
+    	attribution
+      	sub {
+        	authors {
+          	names
+            	str {
+              	"H.Feldman" ,
+	              "C.Hogue" } } ,
+     	   imp {
+      	    date
+        	    std {
+***insert date } } } } here***
+		chemical-graph {
+    	descr {
+      	name "Ab Initio Protein Random Structure" ,
+      	pdb-class "Experimental" ,
+      	pdb-source "Model" ,
+      	assembly-type other } ,
+    	molecule-graphs {
+      	{
+					id 1 ,
+					descr {
+					  name " " ,
+					  molecule-type protein } ,
+			residue-sequence {
+***insert residues here***
+    	model {
+      	{
+        	id 4 ,
+        	type pdb-model ,
+        	descr {
+          	name "Model 1" ,
+          	pdb-method "Algorithmically generated" ,
+          	pdb-comment "created by TRADES algorithm" } ,
+        	model-space {
+	          coordinate-units angstroms ,
+					  thermal-factor-units b ,
+					  occupancy-factor-units fractional } ,
+	        model-coordinates {
+  	        {
+    	        id 1 ,
+      	      coordinates
+        	      literal
+          	      atomic {
+***insert co-ordinates here***
+  sequences {
+    seq {
+      id {
+        pdb {
+          mol "RAND" ,
+          rel
+            std {
+***insert date } } } here***
+      descr {
+        pdb {
+          deposition
+            std {
+***insert date } here***
+      		class "Experimental" ,
+          compound {
+            "Randomly generated protein conformer" } ,
+          source {
+            "TRADES Algorithm" } ,
+          exp-method "In Silico generated" } ,
+        num
+          enum {
+***insert residue numbering here***
+        create-date
+          std {
+            year 0 ,
+            month 1 ,
+            day 1 } } ,
+      inst {
+        repr raw ,
+        mol aa ,
+***insert sequence here***

@@ -1,0 +1,67 @@
+! Sample constraint file for use with seq2trj
+!
+! Comments start with a '!' like in CNS/X-PLOR
+!
+! generally start with an "assign", then two groups of atoms as seen below
+! a # or * in a position acts as a wild card, counting any character in that
+! position, generally used for methyl groups and the like or other
+! symmetrical groups.  These symbols are only valid in the first and last
+! characters of the 4-character PDB atom name and must replace a numeral
+! (i.e. can't replace a letter, like H*).  Also, a maximum of 9 atoms can be
+! represented as a single degenrate group (e.g. a methyl group consists of
+! three degenerate hydrogens).  This is followed by the expected 
+! distance and the minimum and maximum deviations respectively from this mean.
+! Constraints are allowed to be violated to a minimal degree beyond these limits.
+! Next, a probability may be optionally given - default is 0.95.
+! A constraint with probability 0.5, for example, will only be incorporated
+! into about half the structures in a large pool generated at once.  The
+! default of 95% allows for some small amount of error in distance constraints
+! and is not expected to produce significantly different results from a value 
+! of 1.0.  If a constraint is unsatisfied after 5000 attempts to place the
+! second atom in the constraint (with backtracking in between likely) then it
+! will be discarded, until the next structure is generated, to ensure that
+! the program completes.
+!
+! Note an error should be generated if you try to specify atoms or residues
+! in a constraint which do not exist in the sequence you have given to InitTraj.
+!
+! these are typical constraints for disulphide bridges (from BPTI in this case)
+!
+assign (resid 5 and name SG )(resid 55 and name SG ) 2.038 0.3 0.5
+assign (resid 14 and name SG )(resid 38 and name SG ) 2.038 0.3 0.5
+assign (resid 30 and name SG )(resid 51 and name SG ) 2.038 0.3 0.5
+!
+! Here atoms HG1 or HG2 of residue 2 have an NOE with HN of residue 2 but it is
+! uncertain, with only a probability of 0.7
+!
+assign (resid 2 and name HG# )(resid 2 and name HN ) 4.5 2.7 2.0 0.7
+!
+! Here are a few more examples so you can get the atom-naming down pat
+! While spacing is not too important, ensure all words and numbers, etc.
+! appear exactly in the format shown, this is not quite as flexible as
+! X-PLOR/CNS!!
+!
+assign (resid 16 and name HG# )(resid 47 and name HD2# ) 4.5 2.7 3.5
+assign (resid 16 and name HG# )(resid 47 and name HN ) 4.5 2.7 2.0
+assign (resid 16 and name HD22 )(resid 47 and name HB# ) 5.5 3.7 2.0
+assign (resid 16 and name HA )(resid 47 and name HD1# ) 5.5 3.7 2.5
+assign (resid 16 and name HN )(resid 47 and name HN ) 4.5 2.7 1.0
+!
+! You may also specify directed distance constraints by giving and angle
+! and torsion following the probability entry, as shown below.  This
+! allows the proper constraint of well-defined turns, for example.  The
+! example below tells foldtraj you want the two CAs to make and angle of 90
+! degrees with the CA of residue 15, and a torsional angle of 45 degrees
+! with CA-14 and CA-15.  The angles always refer to the previous two CA
+! atoms regardless of which atoms are involved in the distance constraint,
+! and always refer to the two residues immediately preceeding the residue
+! in the distance constraint with the smaller index.  You cannot use this
+! at the very beginning of the protein obviously.  The tolerance is
+! currently fixed at 15 degrees (this is, the constraint is satisfied if
+! the actual ange is within 15 degrees of that desired) but may be
+! changed in the future.  This is still experimental and is not guaranteed
+! to work as described in all cases...  This is also described in detail in
+! the VisTraj online help file
+!
+assign (resid 16 and name CA )(resid 27 and name CA ) 4.5 2.7 1.0 1.0 90.0 45.0
+

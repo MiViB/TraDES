@@ -1,0 +1,32 @@
+# TRADES project makefile
+include trades.mk
+
+#OPTFLAG = -g
+SRC = ./src/analyzeMovie.c ./src/mmdblocl.c
+EXE = ./src/analyzeMovie
+
+include tradesvflags.mk
+include tradesflags.mk
+
+## Default thing to make will be "all"
+##
+
+all : $(EXE)
+
+## make individual applications and components
+##
+
+$(EXE) : $(TRAJLIBNAME) $(FOLDTRAJLIBNAME) $(SRC)
+	$(CC) -o $(EXE) -DX11 $(LDFLAGS) $(SRC) $(LIB99) $(LIB95) $(LIB28) $(LIB22) $(LIB23) $(LIB2) $(LIB1) $(OTHERLIBS)
+	-mkdir $(BUILDDIR)
+	mv $(EXE) $(BUILDDIR)
+
+clean : 
+	rm -f $(TRAJLIBOBJS)
+	rm -f $(FOLDTRAJLIBOBJS)
+	rm -f $(EXE)
+	rm -f $(BUILDDIR)/$(EXE)
+	rm -f $(TRAJLIBNAME)
+	rm -f $(FOLDTRAJLIBNAME)
+
+include tradesdep.mk

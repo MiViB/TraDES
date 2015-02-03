@@ -1,0 +1,448 @@
+TraDES Source Code - top level directory
+Hogue Lab, National University of Singapore
+
+2012 - Open-TraDES  Source Code Release.
+
+
+----------------------------
+IMPORTANT LICENSE INFORMATION  The Short version:
+
+Hogue Lab code is free and BSD licensed, but the TraDEs executable build from source code 
+requires licenses for other 3rd party modules.
+
+Implications for Academics: 
+A) You must agree to all the licenses below.
+B) You may re-compile TraDES at no cost - but see point 3 below regarding CodeBase libraries.
+
+Implications for Companies: 
+A) You must agree to all the licenses below.
+B) The DSSP module has a separately administered commercial license (not us!) 
+   You can omit the DSSP module from the build by removing the USE_DSSP compile-time directive
+   OR you can use it but you must pay your $1000 Euro and sign up here:
+   http://swift.cmbi.ru.nl/gv/dssp/HTML/license_com.html
+C) To re-compile TraDES - see point 3 below regarding CodeBase.
+
+-----------------------------
+IMPORTANT LICENSE INFORMATION The Longer Version:
+
+TraDES is legacy C software with several different licenses embedded in various source modules.
+
+The majority of the Hogue Lab code is released in 2012 under the Simplified BSD License.
+
+However there are still dependencies on Third Party (i.e. not us) Academic and Commercial licences.
+
+Where applicable - copyrights are owned by the respective authors and institutions or companies.
+Each source code module contains a header indicating its license terms.
+
+In general the source code licenses are:
+
+1. Simplified BSD License 
+ - Code arising from Mount Sinai Hospital, University of Toronto, National 
+   University of Singapore, and Institutional collaborations.
+
+2. Public Domain Notice 
+ - Code arising from the U.S. Government - NCBI - National Library of Medicine
+
+3. Commercial License (Software source code distribution is prohibited, therefore not included)
+ - CodeBase - Sequiter Software (www.codebase.com)
+ - To see the CodeBase source code you must buy it. 
+ - However you can compile against the precompiled libraries we provide. 
+ - Wow, cool. How?
+ - The Hogue Lab owns a Sequiter Software CodeBase licenses for all platforms we compile to.
+   We may distribute Executable software and dynamic linkable libraries for runtimes without royalty. 
+  -Precompiled Library (MS-DOS *.obj/*.dll or unix *.o/*.so and header) files for CodeBase are provided with headers.
+  -You must agree to a sublicense of Sequiter Software (see below) which allows you to link against the libraries,
+   provided no changes are made to the CodeBase dependent TraDES modules (*.trj file use) and no
+   other new development is undertaken utilizing the CodeBase libraries by writing any new direct calls 
+   through the CodeBase headers. Any software modifications you make to TraDES must be indirect with regard to any
+   CodeBase functions.
+  -Please specify the OS Platform, Version and
+   processor architecture when making a precompiled library request for any other platform.
+
+4. Modified Third Party Modules have their own licenses reprinted below:
+  -Includes DSSP and BZIP2 
+  -Commercial users must separately license DSSP (see below).
+  -DSSP can be disabled from the default build by removing the USE_DSSP compiler directive.
+ 
+5. All dependencies within this code on former Thomson-Reuters commercial software products purchased from Mount Sinai 
+   Hospital in 2007 including SeqHound (BOND+), BIND (BIND+), BIND-3DBP, BIND-3DSM, 
+   and SMID have been removed from this source code release. 
+
+6. Additionally the source code release has removed HomTraj, RPSBlast, MobiDick 
+   and Distributed Folding module dependencies, as they are no longer maintained, nor relevant
+   to the new primary use of TraDEs as a tool for studying intrinsically disordered proteins.
+
+7. Finally: The TraDEs Patent is no longer enforceable as maintenance payments to the USPTO have never been made.
+   See 6490532_Method_to_construct_protein_stru.pdf
+   
+
+Please write to chogue@blueprint.org if you need assistance understanding these license terms.
+
+----------------------------------------------------------------------------------------------
+IMPORTANT LICENSE INFORMATION The Really Long Legal Version:
+
+Original SLRI/Mount Sinai Hospital modules written by employees of the Hogue
+laboratory from 1997-2012 have been released with the following disclaimer,
+revoking previous GPL license terms or other prior license statements.
+New code written at the National University of Singapore is also released
+under the same license.
+
+This is now a Simplified BSD License but with a single additional disclaimer of any
+obligation to maintain or support the code at the bottom.
+
+
+Portions Copyright (c) 2007-2012 Hogue Laboratory, National University of Singapore
+Portions Copyright (c) 1997-2007 Hogue Laboratory, University of Toronto
+Portions Copyright (c) 1997-2005 Hogue Laboratory, Mount Sinai Hospital, Toronto
+
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met: 
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer. 
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution. 
+
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+THE COPYRIGHT HOLDERS HAVE NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, 
+UPDATES, ENHANCEMENTS OR MODIFICATIONS.
+
+Principal Contact: Christopher W.V. Hogue  chogue@blueprint.org
+
+Contributing Hogue Laboratory Developers: 
+(TraDES Directory)
+Christopher Hogue (mmdbapi, b-d tree, Cn3D, trades, solvate, valmerge, str2trj, seq2trj). 
+Howard Feldman (salign, base foldtraj & maketraj libraries)
+Contributions from John J. Salama (VisTraj) and Kevin Snyder (valmerge)
+Phillipe Phan (analyzeMovie) Adrian Heilbut, Mark Kotowycz, Van Le (trj visualization),
+Michel Dumontier (scoring function libraries, statistical functions) 
+Elena Garderman (software maintenance), Mingxi Yao (valtopdb),
+Gil Alteroviz (GOR implementation),  Boris Steipe (University of Toronto) (fragment based construction)
+Brendan McConkey (University of Waterloo) & Michael Brougham (VSCORE scoring function)
+Jonathan Kans (NCBI) (vistraj)
+
+(SLRI Directory)
+Christopher Hogue (slri_clustlib, slri_cb, slri_asn). 
+Howard Feldman (salign, base foldtraj & maketraj libraries)
+Anthony Hrvojic (slri_prime, slri_set, slri_sstack)
+Rong Yao (slri_misc)
+Kevin Snyder (slri_misc)
+Michel Dumontier (slri_cluster, slri_stats, slri_dagree, slri_math, slri_linkset, slri_clustlib, fsf_util)
+Katerina Michalickova (intrez_misc, slri_asn, slri_cb) 
+Gary Bader (slri_rbtree, slri_misc)
+
+
+
+------------------------------------------------------------------------
+NCBI modules are included with their original NCBI Public Domain Notice:
+
+PUBLIC DOMAIN NOTICE
+National Center for Biotechnology Information (NCBI)
+This software/database is a "United States Government Work" under the
+terms of the United States Copyright Act.  It was written as part of
+the author's official duties as a United States Government employee and
+thus cannot be copyrighted.  This software/database is freely available
+to the public for use. The National Library of Medicine and the U.S.
+Government do not place any restriction on its use or reproduction.
+We would, however, appreciate having the NCBI and the author cited in
+any work or product based on this material.
+Although all reasonable efforts have been taken to ensure the accuracy
+and reliability of the software and data, the NLM and the U.S.
+Government do not and cannot warrant the performance or results that
+may be obtained by using this software or data. The NLM and the U.S.
+Government disclaim all warranties, express or implied, including
+warranties of performance, merchantability or fitness for any particular
+purpose.
+
+---------------------------------------------------------------------------
+AS of 2011 modified DSSP code used by TraDES is now referred to as DSSPold.
+
+DSSP code used by TraDES has been modified to use as a library.
+
+The current DSSPold Academic and Commercial licenses are at:
+http://swift.cmbi.ru.nl/gv/dssp/HTML/license.html
+http://swift.cmbi.ru.nl/gv/dssp/HTML/license_com.html
+
+Please agree to and if necessary pay for your commercial license, as
+DSSP code is distributed on a basis of trust by its authors.
+
+
+DSSP source modules are included with their original (dated) academic license.
+Refer to the above links for the current terms which are distinct and separate
+for academic and commercial use.
+
+
+An academic license for the DSSP program
+((c) W. Kabsch, C. Sander and MPI-MF, 1983, 1985, 1988)
+is granted to in exchange for the following commitments:
+
+I hereby certify that
+(1) I am an academic user at an academic research institution. In
+using the software, I will respect the interests of the authors
+and their institutions.
+(2) I will not use the software in commercial activities without
+a written commercial license agreement; commercial activities
+include, in particular, work under contract from a commercial
+company.
+(3) I will not redistribute the software to others outside of my
+immediate research group. I will suggest to other interested
+research groups to contact the authors directly.
+(4) I will not alter or suppress the run-time copyright message.
+(5) I will acknowledge the program authors on any publication of
+scientific results based in part on use of the program and
+cite the article in which the program was described.
+(6) I will report evidence of program bugs to the authors.
+(7) I will send the source code of any bug corrections and program
+extensions, major or minor, to the original authors, for free
+academic use. If I have made major extensions which are incor-
+porated by the authors, I reserve the right to be appropriately
+included in any future commercial license agreement.
+(8) I will not extract part of the software, e.g. modules or sub-
+routines, for use in other contexts without permission by the
+authors.
+(9) I will not use the program in the context of classified research.
+
+
+
+
+--------------------------------------------------------------------
+BZIP2 modules have been modified to be used as a library by the Hogue Lab.
+BZIP2 modules are included with their original license:
+
+Copyright (C) 1996-2000 Julian R Seward.  All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+2. The origin of this software must not be misrepresented; you must
+not claim that you wrote the original software.  If you use this
+software in a product, an acknowledgment in the product
+documentation would be appreciated but is not required.
+3. Altered source versions must be plainly marked as such, and must
+not be misrepresented as being the original software.
+4. The name of the author may not be used to endorse or promote 
+products derived from this software without specific prior written
+permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS
+OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Julian Seward, Cambridge, UK.
+jseward@acm.org
+bzip2/libbzip2 version 1.0 of 21 March 2000
+This program is based on (at least) the work of:
+Mike Burrows
+David Wheeler
+Peter Fenwick
+Alistair Moffat
+Radford Neal
+Ian H. Witten
+Robert Sedgewick
+Jon L. Bentley
+
+For more information on these sources, see the manual.
+
+---------------------------------------------------------------
+CODEBASE SCHEDULE A - Linkable Library Distribution.
+
+These are the terms under which the CodeBase linkable
+libraries can be redistributed for TraDES linking.
+In this case "you" are the "Sub-Licensee". 
+The "Licensee" is the National University of Singapore and/or
+Mount Sinai Hospital, Toronto.
+
+See www.codebase.com for more details.
+
+
+SCHEDULE "A"
+
+
+This Schedule "A" forms part of the Agreement between you, the 
+CodeBase Licensee, and Sequiter Software Inc.
+
+TERMS AND CONDITIONS TO BE IMPOSED UPON THE CodeBase 
+Sub-Licensee:
+
+CodeBase Sub-License Agreement
+
+Whereas, the CodeBase Licensee has licensed software from 
+Sequiter Software Inc. (Sequiter) under the terms of  the 
+CodeBase Software License Agreement.
+
+Whereas, the CodeBase Licensee has certain distribution rights to 
+the licensed software provided that this legal agreement is 
+imposed upon the CodeBase Sub-Licensee.
+
+Whereas, the CodeBase Licensee has agreed not to directly or 
+indirectly distribute software which provides programmatic 
+database capabilities and which also uses the Licensed CodeBase 
+Software  unless otherwise agreed to by Sequiter.
+
+Whereas, this legal document is an agreement between you, the 
+CodeBase Sub-Licensee, and the CodeBase Licensee 
+(hereinafter referred to as the "Agreement").
+
+
+1.Definitions
+
+Licensed Software:  This is the Sequiter computer programs 
+contained in the CodeBase software package or any computer 
+programs containing parts of the computer programs in the 
+package. These programs could be represented in any form:  in 
+print, as electronic source code, as compiled object modules, as 
+a library file, a dynamic link library, or an executable program.  
+It includes the CodeReporter and CodeControls software which is 
+bundled with CodeBase.
+
+
+Executable Software:  This is a form of the Licensed Software 
+which can be executed directly by a computer.   Under Microsoft 
+Windows the name extension of executable software is typically 
+".EXE".
+
+
+DLL Software:  This is a dynamic link library form of the 
+Licensed Software which is executed indirectly under the 
+operating system.  It includes dynamic link library forms of the 
+Licensed Software.  For the purpose of this license agreement, 
+other forms of the Licensed Software which are executed 
+indirectly, such as ".VBX" or ".OCX" custom control libraries are 
+also considered to be DLL Software.
+
+
+Server Engine Software:  This is executable software or DLL 
+Software which participates in performing remote database 
+requests originating from a separate client computer.
+
+
+Distributable Executable Software:  This is all Executable 
+Software except for Server Engine Software.   (Client and 
+stand-alone configurations are not Server Engine Software and 
+consequently are not excluded from distribution under this 
+definition.  Multi-user applications using file based locking are 
+also not Server Engine Software.)
+
+
+Distributable DLL Software:  This is all DLL Software except for 
+the Server Engine Software.
+
+
+Distributable Software:  This is all Distributable Executable 
+Software and Distributable DLL Software.
+
+
+Licensed Operating Systems:  The licensed operating systems are 
+listed along with your serial number  label which comes with this 
+software package.  You agree to retain this serial number label 
+as proof of which operating systems are licensed.  If no 
+operating systems are specified on the serial number label, the 
+Licensed Operating Systems consist of the DOS and the Microsoft 
+Windows operating systems. 
+
+
+2. Sub-License
+
+You may use the Distributable Software under the Licensed 
+Operating Systems with, and only with, application(s) provided by 
+the CodeBase Licensee.  You agree not to use the Distributable 
+Software for any other purpose.  You agree not to use the 
+Distributable Software for the purposes of software development 
+and agree to take appropriate measures to ensure that no one uses 
+the Distributable Software for the purposes of software 
+development without an appropriate separate license.
+
+
+3. Copyright
+
+The Sub-Licensed Software and other accompanying materials, 
+including but not limited to printed or electronic text and 
+images, is owned by Sequiter or its suppliers and is protected by 
+copyright laws and international treaty provisions.  
+Consequently, you may not make copies of this copyrighted 
+material except as expressly provided herein.
+
+
+4. Transfer Restrictions
+
+The Sub-Licensed Software is Sub-Licensed to you, and may not be 
+transferred to anyone without the prior consent of the CodeBase 
+Licensee.  Any authorized transferee of the Sub-License shall be 
+bound by the terms of this agreement.
+
+
+5. NO WARRANTIES
+
+To the maximum extent permitted under applicable law, the 
+Software and product items are provided "as is" without any kind 
+of warranty.  You accept full responsibility for determining whether
+the Software or product items are suitable for any particular purpose
+and for protecting yourself against any possible consequential damages.
+
+
+6. Severability
+
+If any clause in this Agreement is held to be contrary to law, that 
+clause shall be severed and the rest of the agreement shall be 
+enforceable to the fullest extent possible.
+
+
+7. U.S. GOVERNMENT RESTRICTED RIGHTS.
+
+The CodeBase software package and documentation are provided with 
+RESTRICTED RIGHTS. Use, duplication, or disclosure by the 
+Government is subject to restrictions as set forth in 
+subparagraph (c)(1)(ii) of the Rights in Technical Data and 
+Computer Software clause at DFARS 252.227-7013 or subparagraphs 
+(c)(1) and (2) of the Commercial Computer Software-Restricted 
+Rights at 48 CFR 52.227-19, as applicable. 
+
+
+8. Miscellaneous
+
+This agreement is governed by the laws of the Province of 
+Alberta, Canada.  You hereto irrevocably attorn to the 
+jurisdiction of the courts of the Province of Alberta and further
+agree to commence any litigation which may arise hereunder in the 
+courts located in the Judicial District of Edmonton, Province of 
+Alberta, Canada.
+
+
+9. Entire Agreement
+
+This agreement constitutes the entire Agreement between the 
+parties hereto and there are no statements, representations, 
+warranties, undertakings or agreements, written or oral, express 
+or implied, direct or indirect, collateral or otherwise, between 
+the Parties hereto, except as herein set forth.
+
+
+---------------------------------------------------------------------

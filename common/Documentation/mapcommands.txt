@@ -1,0 +1,167 @@
+mapcommands.txt - file describing differences between the new 'trades' excecutables and the old 'foldtraj' style executables.
+Christopher W. V. Hogue May 2012
+chogue@blueprint.org
+
+This document is for previous users of foltraj.  
+If you are a new user, you can skip this.
+
+
+1. DEPRECATED foldtraj arguments: These arguments have been removed and are not supported in any form 
+in the new trades executable.
+
+-g -j -l -m -e -y -H: These commands were relevant to our prior use of foldtraj in brute-force structure prediction 
+we expect have no user-settable purpose outside that context. 
+
+-r: Use Extra RAM has been set on by default.  This was material to OS with <256 Mb RAM with very large protein TRJ files.
+
+-k: Number of best structures to keep - This command was relevant to using foldtraj to find low-RMSD structures compared
+to some native fold, or various scoring function schemes internal to the experimental code, and relevant to a time
+when hard disks were maximally only a few tens of Gb in size. Currently we rely on R to postprocess *.log files and
+select best ensembles. Unrepresentative structures may be removed afterward.  If structures are not required, setting
+trades -a F -p F will not write out structures, but full log files will be created.
+
+
+2. UNCHANGED foldtraj arguments: These arguments behave identically in trades and foldtraj:
+
+-n  -d  -p  -a  -b  -q  -x  -s  -c  -h -F
+  
+
+3. RENAMED foldtraj arguments still working the same way in trades: 
+
+
+OLD NEW
+-i   -f  
+-f   -o  
+
+
+4. NEW trades arguments:
+  -r  Write 20 Ramachandran Angle Files: [T/F]  Optional
+    default = FALSE
+  -v  ASN.1 MIME BINARY .val Output (FALSE = ASCII .prt): [T/F]  Optional
+    default = TRUE
+  -l  No. of H20 layers for Ellipsoid and PCA 3D axis Transform
+      (Default = 1, 0 for no solvation): [Integer]  Optional
+    default = 1
+    range from 0 to 10
+  -w  Keep H20 in Structure Output: [T/F]  Optional
+    default = FALSE
+  -t  Stream Progress Update to stdout [T/F]  Optional
+    default = FALSE
+  -k  Skip PCA rotation after Ellipsoid calculations: [T/F]  Optional
+    default = FALSE
+
+
+
+
+
+5. Full output list of Arguments from new/old versions:
+
+NEW TRADES ARGUMENTS:
+
+
+TraDES - Trajectory Directed Ensemble Sampling Engine
+Used to generate protein 3D structures by conformational space sampling.
+
+   arguments:
+
+  -f  Input Trajectory Distribution File (NO EXTENSION)
+REQUIRED: [File In]
+  -o  Output filename to store structure (NO EXTENSION)
+      (default = same as input trajectory distribution): [File Out]  Optional
+  -n  Reproducible Random Seed? (0 = Truly Random): [Integer]  Optional
+    default = 0
+    range from -2147483647 to 2147483647
+  -d  Keep input file when done?: [T/F]  Optional
+    default = TRUE
+  -p  Output PDB files?: [T/F]  Optional
+    default = FALSE
+  -a  Output ASN.1 files?: [T/F]  Optional
+    default = TRUE
+  -b  Number of structures to build: [Integer]  Optional
+    default = 1
+    range from 1 to 300000
+  -q  Quiet operation?: [T/F]  Optional
+    default = TRUE
+  -c  Comparison structure filename (NO EXTENSION): [File In]  Optional
+  -h  Comparison structure Chain
+      (default=first molecule in file): [String]  Optional
+    default = -
+  -x  Experiment (default=none): [String]  Optional
+  -s  Structure Numbering start at:  [Integer]  Optional
+    default = 1
+    range from 1 to 10000000
+  -F  Build only fragment covered range: [T/F]  Optional
+    default = FALSE
+  -r  Write 20 Ramachandran Angle Files: [T/F]  Optional
+    default = FALSE
+  -v  ASN.1 MIME BINARY .val Output (FALSE = ASCII .prt): [T/F]  Optional
+    default = TRUE
+  -l  No. of H20 layers for Ellipsoid and PCA 3D axis Transform
+      (Default = 1, 0 for no solvation): [Integer]  Optional
+    default = 1
+    range from 0 to 10
+  -w  Keep H20 in Structure Output: [T/F]  Optional
+    default = FALSE
+  -t  Stream Progress Update to stdout [T/F]  Optional
+    default = FALSE
+  -k  Skip PCA rotation after Ellipsoid calculations: [T/F]  Optional
+    default = FALSE
+
+TO START: You need a *.trj file first (use seq2trj or str2trj).
+     For usage try: seq2trj - OR str2trj -
+
+
+FOLDTRAJ ARGUMENTS:
+
+
+Foldtraj vFeb  1 2011   arguments:
+
+  -i  Input Trajectory Distribution File (NO EXTENSION) [File In]
+  -f  Output filename to store structure (NO EXTENSION) (used with -at or -pt) (
+default = same as input trajectory distribution) [File Out]  Optional
+  -n  Thy lucky number (0=random) [Integer]  Optional
+    default = 0
+    range from -2147483647 to 2147483647
+  -d  Keep input file when done? [T/F]  Optional
+    default = TRUE
+  -p  Output PDB files? [T/F]  Optional
+    default = TRUE
+  -a  Output MMDB ASN.1 files? [T/F]  Optional
+    default = FALSE
+  -b  Number of structures to build [Integer]
+    range from 1 to 32767
+  -k  Number of best structures to keep (used with -at or -pt and -c) (0=keep al
+l) [Integer]  Optional
+    default = 0
+    range from 0 to 32767
+  -q  Quiet operation? [T/F]  Optional
+    default = TRUE
+  -c  Native structure filename (NO EXTENSION) [File In]  Optional
+  -h  Native structure Chain (default=first molecule in file) [String]  Optional
+    default = -
+  -x  Experiment (default=none) [String]  Optional
+  -s  Structure Numbering start at:  [Integer]  Optional
+    default = 1
+    range from 1 to 10000000
+  -g  Crease Energy Cutoff (0=Whole Protein) [Integer]  Optional
+    default = 0
+    range from 0 to 99999
+  -j  Crease Energy Exclusive Window Size [Integer]  Optional
+    default = 3
+    range from 0 to 99999
+  -l  Decay Crease Energy [T/F]  Optional
+    default = FALSE
+  -m  Compute CHARMM potential (time consuming) [T/F]  Optional
+    default = FALSE
+  -e  Reserved  [T/F]  Optional
+    default = TRUE
+  -y  Reserved  [T/F]  Optional
+    default = TRUE
+  -r  Use Extra RAM [T/F]  Optional
+    default = FALSE
+  -H  Reserved  [File Out]  Optional
+  -F  Build only fragment covered range [T/F]  Optional
+    default = FALSE
+
+
+  

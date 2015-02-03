@@ -1,0 +1,131 @@
+Compatibility Notes for the TraDES software package
+-------------------------------------------------------------
+
+Due to the wide variability in today's computing platforms,
+and the complexity of the TraDES software package, we cannot
+guarantee that TraDES will function on your specific hardware
+or operating system.
+
+Most of the libraries used by the program are statically linked
+but some are dynamically linked. 
+
+If you have difficulty on a Unix/Linux based platform you can use 
+the command ldd to show the library dependencies each binary program 
+requires, like this:
+
+[chogue@localhost misc]$ ldd addcr
+	linux-vdso.so.1 =>  (0x00007fff706e6000)
+	libc.so.6 => /lib64/libc.so.6 (0x0000003a99200000)
+	/lib64/ld-linux-x86-64.so.2 (0x0000003a98e00000)
+
+We have provided versions for as many platforms as we are able, 
+but some may have certain issues which are discussed here.
+
+If you would like this software built for a system not covered here, 
+please e-mail me at
+
+chogue@blueprint.org
+
+and I will do my best to accomodate you.
+
+
+------------------------------------
+32 Bit Linux Builds  
+
+These are built for Pentium 4 and later processors. They may not work on older CPUs.
+
+CentOS5_5_x86 is CentOS 5.5 and compatible with Red Hat Enterprise Linux (RHEL) 5.5 
+- This build contains a working Vistraj
+- you may need to resolve any missing Vistraj library dependencies with yum.
+
+Ubuntu10_10_x86 is Ubuntu 10.10 and contains a working Vistraj.
+ - you may need to reslove any missing Vistraj library dependencies.
+
+Fedora14_x86 is Fedora 14.  This build does not support Vistraj as OpenMotif is not supported on it yet.
+
+If you need binaries for an older version of Linux - please let us know.
+
+------------------------------------
+64 Bit Linux Builds
+
+CentOS5_5_x86_64 is CentOS 5.5 and compatible with Red Hat Enterprise Linux (RHEL) 5.5 
+- This build contains a working Vistraj
+- you may need to resolve any missing Vistraj library dependencies with yum.
+
+Fedora14_x86_64 is Fedora 14  
+- This build does not support Vistraj as OpenMotif is not supported on it yet.
+
+OpenSUSE11_3_x86_64 is OpenSUSE 11.3 
+- This build does not support Vistraj as OpenMotif is not supported on it yet.
+- A buggy Vistraj 1.1.2 is provided but we cannot see the sequence line, maybe you can.
+
+If you need binaries for an older version of Linux - please let us know.
+
+------------------------------------
+Mac OS X Builds
+
+MacOSX10_4_PPC is Mac OS X 10.4 on PowerPC based Macintosh computers
+- is a PPC architecture thin binary
+- is capable of running on 10.4-10.6 and on i386 emulation mode - but very slow!
+- Vistraj is not supported on this platform
+
+MACOSX10_6_x86 is Mac OS X 10.6 on Intel based Macintosh computers
+- is an i386 architecture thin binary
+- Vistraj is not supported on this platform
+------------------------------------
+WindowsXP Builds
+
+This version was compiled using Microsoft Visual Studio 2008 on Windows XP
+and has only been tested on this platform. 
+
+If you want to run it under Windows 7 note that all the command line utilities work.
+
+- Vistraj 1.1.1 is shipped in the Windows build.  Ignore the broken link to the website and the out of date
+contact information for the time being.  It runds best under Windows XP mode.
+
+-------------------------------------
+Archival Builds - Original foldtraj binaries for sampling systems:
+
+2003 Builds are available - please write if you need an older distribution on
+one of the following circa 2003 architectures:
+Solaris on Sparc 32-bit 
+QNX in Intel
+linux-i386 
+linux-i386-icc (Intel Compiler)
+linux-ppc (Yellowdog Linux)
+linux-hppa (PA-Risc Linux)
+linux-ps2 (PS2 Linux - yup...)
+macosx  (PPC Mac OS X 10.1)
+irix6x  (SGI IRIX 64 bit)
+irix6x32 (SGI IRIX 32 bit)
+solaris64 (Solaris on Sparc 64-bit)
+Compaq (Tru64 Unix on Alpha) 
+FreeBSD on Intel 
+HPUX (HP PA-RISC systems) 
+BeOS on Intel 
+Solaris-x86
+
+We can arrange to get you a working foldtraj for these older OS/CPUs. 
+
+
+
+General
+-------
+If you have any problems getting the software to run (i.e. fatal errors, machine
+freezes, etc) please check the above list to see if you have access to a machine
+with a supported version of the OS installed on it.  When it doubt try Windows,
+as this is the least variable of all the platforms listed above.  If you still
+experience problems, or would like to obtain a version for a system not listed
+above, please contact the authors at:
+
+chogue@blueprint.org
+
+Also, make sure you have the latest version of the software, which is located at:
+
+          ftp://ftp.blueprint.org/pub/TraDES/
+
+and called TraDES-current-XXXXX.tar.gz where XXXXX is your platform name.
+
+-- Christopher Hogue (originally thanks to Howard Feldman)
+Feb. 1, 2011
+--

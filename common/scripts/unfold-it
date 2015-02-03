@@ -1,0 +1,104 @@
+#!/bin/bash
+
+
+if [ $# != 4 ]
+then
+	echo "usage: `basename $0` [Asn.1 Filename(no extension)] [Temperature (Kelvin) e.g. 400]"
+	echo "                  [timestep (fs) e.g. 50] [steps e.g. 20]"
+	exit 1
+fi
+
+NUMCYC=0
+
+echo File to Unfold: $1
+echo Temperature: $2 K
+echo Timestep: $3 fs
+echo Iteration 1 of $4
+
+# make initial noisy trajectory file
+echo Creating trajectory graph for iteration 1
+echo ./str2trj -f $1 -t $2 -d $3 -o ${1}_1 -q F -r 1
+./str2trj -f $1 -t $2 -d $3 -o ${1}_1 -q F -r 1
+
+
+while [ $NUMCYC != $4 ]
+do
+	let NUMCYC=$NUMCYC+1
+	let NEXTCYC=$NUMCYC+1
+	let LASTCYC=$NUMCYC-1
+
+	echo Cycle: $NUMCYC
+
+	STRUCNUM=$NUMCYC
+	if [ $NUMCYC -lt 1000000 ]
+	then
+		STRUCNUM=0${STRUCNUM}
+	fi
+	if [ $NUMCYC -lt 100000 ]
+	then
+		STRUCNUM=0${STRUCNUM}
+	fi
+	if [ $NUMCYC -lt 10000 ]
+	then
+		STRUCNUM=0${STRUCNUM}
+	fi
+	if [ $NUMCYC -lt 1000 ]
+	then
+		STRUCNUM=0${STRUCNUM}
+	fi
+	if [ $NUMCYC -lt 100 ]
+	then
+		STRUCNUM=0${STRUCNUM}
+	fi
+	if [ $NUMCYC -lt 10 ]
+	then
+		STRUCNUM=0${STRUCNUM}
+	fi
+
+	# make next sturcture, and so on
+	echo Unfolding with TraDES iteration: $NUMCYC
+	echo ./trades -f ${1}_${NUMCYC} -o ${1}_${NUMCYC} -p F -a T -z T -b 1 -c $1 -s ${NUMCYC}
+	./trades -f ${1}_${NUMCYC} -o ${1}_${NUMCYC} -p F -a T -z T -b 1 -c $1 -s ${NUMCYC}
+
+
+	# align it to previous one (C alphas only)
+	if [ $NUMCYC = 1 ]
+	then
+		# salign only dumps 1st model of original file
+		# note reversal of -f and -g since -f file is the one which is rotated
+		echo ./salign -f ${1}.val -g ${1}_1_0000001.val -a 2 -t T > /dev/null
+		./salign -f ${1}.val -g ${1}_1_0000001.val -a 2 -t T > /dev/null
+		mv salign_out.val ${1}_1.val
+		mv salign_out.prt ${1}_1.prt
+		rm -f ${1}_1_0000001.val
+		echo ./bin2prt -f $1 -u T
+		./bin2prt -f $1 -u T
+	else
+		echo ./salign -f ${1}_${LASTCYC}.val -g ${1}_${NUMCYC}_${STRUCNUM}.val -a 2 -t T > /dev/null
+		./salign -f ${1}_${LASTCYC}.val -g ${1}_${NUMCYC}_${STRUCNUM}.val -a 2 -t T > /dev/null
+		mv salign_out.val ${1}_${NUMCYC}.val
+		mv salign_out.prt ${1}_${NUMCYC}.prt
+		rm -f ${1}_${NUMCYC}_${STRUCNUM}.val
+	fi
+
+	if [ $NUMCYC != $4 ]
+	then
+		# make next noisy trajectory file
+		echo Creating trajectory graph, iteration: $NEXTCYC
+		echo ./str2trj -f ${1}_${NUMCYC} -t $2 -d $3 -o ${1}_${NEXTCYC} -q F -r 1
+		./str2trj -f ${1}_${NUMCYC} -t $2 -d $3 -o ${1}_${NEXTCYC} -q F -r 1
+	fi
+done
+./concatmodels -i $1 -n $4
+./prt2bin -f ${1}_movie -m T
+rm ${1}_movie.prt
+echo ${1}_movie.val created.
+
+NUMCYC=0
+while [ $NUMCYC != $4 ]
+do
+	let NUMCYC=$NUMCYC+1
+	rm -f ${1}_${NUMCYC}.prt
+done
+
+echo Use Cn3D 4.3 or later to view!
