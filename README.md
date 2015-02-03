@@ -6,14 +6,12 @@ which are are in the `/nusi/TraDES` directory, and which are all under the Simpl
 
 This repository contains work in progress.  To build you will need
 to download and extract the [2012 TraDES-2](https://us-east.manta.joyent.com/profhogue/public/TraDES-2/120612b_TraDES_Source.tar.gz)
-tarball, which includes all party packages and their respective licenses.
+tarball, which includes all third party packages and their respective licenses.
 
 
 # Top Level Source Code Contents:
 
-`analyzemovie benchtraj bin2prt concatmodels crashchk prt2bin`
-`ramangL seq2trj solvate solvateL str2pdb str2trj strMerge`
-`strSummary trades`
+`analyzemovie benchtraj bin2prt concatmodels crashchk prt2bin ramangL seq2trj solvate solvateL str2pdb str2trj strMerge strSummary trades`
 
 ### Principal Contact: Christopher W.V. Hogue  
 
